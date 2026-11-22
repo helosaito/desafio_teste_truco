@@ -1,153 +1,46 @@
-# desafio_teste_truco
+# Truco Paulista — desafio de testes
 
-Repositório do desafio de testes automatizados do **Truco Paulista**.
+## Desafio
 
-## 1. Colaborador(es)
+O desafio é elaborar testes automatizados para uma partida simplificada de Truco Paulista entre duas duplas, identificadas por `0` e `1`. A implementação de todas as funcionalidades não é obrigatória na atividade; este repositório inclui uma implementação de referência para os testes.
 
-- Colaborador 1: Heloísa Sayuri Silva Saito
+O código representa estado inicial, pontuação, mãos, rodadas, pedidos de aumento de aposta, aceitação ou desistência, encerramento em 12 pontos e comparação de cartas/manilhas. Cada mão inicia valendo 1 ponto. A aposta pode aumentar para 3, 6, 9 ou 12. Quando a primeira rodada empata, a vitória da segunda define a mão. As demais combinações de empate não estavam especificadas na documentação auditada; confirme o enunciado original antes de ampliar essas regras. O projeto não distribui cartas nem oferece interface de jogo.
 
-- Colaborador 2: Maria Eduarda de Castro Lachima
+## Colaboradores
 
-## 2. Especificação do desafio
+- Heloísa Sayuri Silva Saito
 
-O desafio consiste em criar casos de teste em JavaScript para verificar o funcionamento de uma partida de **Truco Paulista entre duas duplas**.
+- Maria Eduarda de Castro Lachima
 
-Neste projeto, as duplas são identificadas pelos números `0` e `1`.
+## Arquivos
 
-As regras consideradas são:
+- `TrucoPaulista.js`: implementação da classe e comparação de cartas.
 
-- A partida começa com as duas duplas com zero pontos.
+- `TrucoPaulista.test.js`: testes automatizados com `node:test` e `node:assert/strict`.
 
-- Cada mão começa valendo 1 ponto.
+## Casos de teste
 
-- A dupla que vencer duas rodadas vence a mão.
+| Caso | O que verifica |
+| --- | --- |
+| Inicia partida com pontuação zerada e aposta de um ponto | O estado inicial é `em_andamento`, as duas pontuações são zero e a aposta vale 1. |
+| Não permite registrar rodadas antes de iniciar | Uma rodada antes de `iniciarPartida()` lança erro. |
+| Dupla vence mão ao ganhar duas rodadas | Duas vitórias da dupla 0 encerram a mão e somam 1 ponto. |
+| Dupla vence após perder a primeira rodada | A dupla que vence as duas rodadas seguintes vence a mão. |
+| Vitória na segunda rodada decide após empate na primeira | Depois de empate na primeira, a vitória da dupla 1 na segunda encerra a mão e pontua. |
+| Pedido e aceitação de truco aumentam a aposta | O pedido de 1 solicita 3 e sua aceitação altera a aposta para 3. |
+| Vitória após aceitar truco pontua o valor da aposta | A dupla vencedora recebe os 3 pontos da aposta aceita. |
+| Desistência concede o valor anterior ao solicitante | A dupla que pediu recebe a aposta atual quando a adversária corre. |
+| Progressão da aposta termina em doze pontos | A aposta percorre 3, 6, 9 e 12, sem permitir novo aumento. |
+| Partida termina ao atingir doze pontos | A pontuação chega a 12 e o status passa a `encerrada`. |
+| Rejeita dupla inválida e pedido de truco duplicado | Identificador de dupla inválido e segundo pedido sem resposta são rejeitados. |
+| Identifica manilha como carta seguinte à vira | A função retorna a carta seguinte na ordem definida, inclusive ao passar do 3 para o 4. |
+| Manilha vence carta comum e naipe define disputa entre manilhas | A manilha supera carta comum e a ordem de naipes desempata duas manilhas. |
+| Rejeita cartas e resultados de rodada inválidos | Valores de carta e vencedor de rodada fora dos domínios aceitos lançam erro. |
 
-- Se a primeira rodada empatar, a dupla que vencer a segunda rodada vence a mão.
+## Como executar
 
-- O valor da mão pode aumentar de 1 para 3, 6, 9 ou 12 pontos.
-
-- A dupla adversária pode aceitar o pedido de truco ou correr.
-
-- Quando a dupla adversária corre, quem pediu o truco recebe o valor anterior da aposta.
-
-- A partida termina quando uma dupla alcança 12 pontos.
-
-- A vira determina a manilha.
-
-- Entre duas manilhas, o naipe mais forte vence.
-
-O projeto não possui interface gráfica nem distribuição automática de cartas. O objetivo é testar as regras por meio de funções JavaScript, de forma simples e automatizada.
-
-## 3. Estrutura do projeto
-
-```
-.
-├── package.json
-├── README.md
-├── src/
-│   └── TrucoPaulista.js
-└── tests/
-    └── TrucoPaulista.test.js
-```
-
-### Arquivos
-
-- `src/TrucoPaulista.js`: contém a classe `TrucoPaulista` e as regras testadas.
-
-- `tests/TrucoPaulista.test.js`: contém os casos de teste automatizados.
-
-- `package.json`: contém os comandos e a dependência do Jest.
-
-## 4. Funcionamento dos casos de teste
-
-Os testes são executados com o framework Jest. Cada teste segue três etapas:
-
-1. **Preparação:** cria uma partida e configura a situação necessária.
-
-1. **Execução:** chama uma função da classe, como pedir truco ou registrar uma rodada.
-
-1. **Verificação:** compara o resultado obtido com o resultado esperado usando `expect`.
-
-### Casos de teste implementados
-
-| Nº | Caso testado | Resultado esperado |
-| --- | --- | --- |
-| 1 | Iniciar uma partida | A partida fica em andamento, com pontuação `[0, 0]` e aposta 1. |
-| 2 | Vencer duas rodadas | A dupla vencedora recebe 1 ponto. |
-| 3 | Vencer após perder a primeira rodada | A dupla que vencer as duas rodadas seguintes ganha a mão. |
-| 4 | Empatar a primeira rodada | A dupla vencedora da segunda rodada ganha a mão. |
-| 5 | Pedir truco | O sistema registra o pedido de aumento para 3 pontos. |
-| 6 | Aceitar truco | A aposta passa a valer 3 pontos. |
-| 7 | Vencer uma mão trucada | A dupla vencedora recebe 3 pontos. |
-| 8 | Correr do truco | Quem pediu recebe o valor anterior da aposta. |
-| 9 | Aumentar a aposta | A aposta pode evoluir de 1 para 3, 6, 9 e 12. |
-| 10 | Chegar a 12 pontos | A partida fica com status `encerrada`. |
-| 11 | Usar uma dupla inválida | O sistema lança um erro. |
-| 12 | Pedir truco duas vezes | O segundo pedido é rejeitado enquanto o primeiro aguarda resposta. |
-| 13 | Calcular a manilha | A carta seguinte à vira é identificada como manilha. |
-| 14 | Comparar manilha e carta comum | A manilha vence a carta comum. |
-| 15 | Comparar duas manilhas | O naipe mais forte vence. |
-
-### Exemplo de teste
-
-```javascript
-test('dupla vence uma mão com duas rodadas e recebe 1 ponto', () => {
-  const jogo = new TrucoPaulista();
-  jogo.iniciarPartida();
-
-  jogo.registrarRodada(0);
-  jogo.registrarRodada(0);
-
-  expect(jogo.pontuacaoDaDupla(0)).toBe(1);
-});
-```
-
-Nesse caso:
-
-- a partida é criada;
-
-- a partida é iniciada;
-
-- a Dupla 0 vence duas rodadas;
-
-- o teste verifica se ela recebeu 1 ponto.
-
-## 5. Instalação
-
-É necessário ter Node.js instalado. Dentro da pasta do projeto, execute:
+Requer Node.js 18 ou superior. Não há dependências externas. Na pasta deste projeto, execute:
 
 ```bash
-npm install
+node --test
 ```
-
-## 6. Execução dos testes
-
-Para executar todos os testes:
-
-```bash
-npm test
-```
-
-Comando para executar os testes observando alterações:
-
-```bash
-npm run test:watch
-```
-
-Comando para gerar cobertura de testes:
-
-```bash
-npm run test:coverage
-```
-
-## 7. Observações do enunciado
-
-- A realização dos desafios é opcional.
-
-- Podem ser feitos em dupla.
-
-- A contribuição de cada integrante deve aparecer no repositório para que seja considerada.
-
-- Este repositório segue o padrão de nomenclatura `desafio_teste_truco`.
-
-- Serão considerados no máximo 5 desafios entregues.
