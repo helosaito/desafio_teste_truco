@@ -6,9 +6,9 @@ Repositório do desafio de testes automatizados do **Truco Paulista**.
 
 Preencha os nomes das pessoas que participaram deste repositório:
 
-- Colaborador 1: ____________________________________
+- Colaborador 1: Heloísa Sayuri Silva Saito
 
-- Colaborador 2: ____________________________________
+- Colaborador 2: Maria Eduarda de Castro Lachima
 
 Se o trabalho for individual, remova a segunda linha.
 
