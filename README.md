@@ -38,7 +38,7 @@ O código representa estado inicial, pontuação, mãos, rodadas, pedidos de aum
 
 ## Como executar
 
-Requer Node.js 18 ou superior. Não há dependências externas. Na pasta deste projeto, execute:
+Requer Node.js 18 ou superior. Não há dependências externas, na pasta deste projeto, execute:
 
 ```bash
 node --test
