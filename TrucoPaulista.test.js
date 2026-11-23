@@ -113,3 +113,14 @@ test('manilha vence carta comum e naipe define disputa entre manilhas', () => {
         { valor: '7', naipe: 'copas' }
     ) > 0);
 });
+
+test('rejeita cartas e resultados de rodada inválidos', () => {
+    const jogo = new TrucoPaulista();
+    jogo.iniciarPartida();
+    assert.throws(() => jogo.registrarRodada(3), /identificada por 0 ou 1/);
+    assert.throws(() => TrucoPaulista.compararCartas(
+        { valor: 'X', naipe: 'copas' },
+        { valor: '3', naipe: 'paus' },
+        { valor: '7', naipe: 'copas' }
+    ), /Valor de carta inválido/);
+});
