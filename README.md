@@ -1,4 +1,4 @@
-# Truco Paulista — desafio de testes
+# Truco Paulista — Desafio de Testes
 
 ## Desafio
 
