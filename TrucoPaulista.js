@@ -214,3 +214,5 @@ class TrucoPaulista {
         return ORDEM_CARTAS[(ORDEM_CARTAS.indexOf(vira.valor) + 1) % ORDEM_CARTAS.length];
     }
 }
+
+module.exports = { TrucoPaulista, ORDEM_CARTAS, ORDEM_NAIPES };
